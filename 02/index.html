@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://aframe.io/releases/0.3.2/aframe.min.js"></script>
+    </head>
+
+    <body>
+        <a-scene>
+            <a-sky color="#333333"></a-sky>
+
+            <a-entity position="0 0 0" rotation="0 0 0" scale="5 5 5">
+                <a-plane color="#a84168" height="4" width="4" position="0 0 0" rotation="-90 0 0"></a-plane><!--floor-->
+                <a-plane color="#ffffff" height="4" width="4" position="0 2 0" rotation="90 0 0"></a-plane><!--ceiling-->
+                <a-plane color="#6a41a8" height="2" width="4" position="0 1 -2" rotation="0 0 0"></a-plane><!--wall-north-->
+                <a-plane color="#6a41a8" height="2" width="4" position="0 1 2" rotation="0 180 0"></a-plane><!--wall-south-->
+                <a-plane color="#6a41a8" height="2" width="4" position="-2 1 0" rotation="0 90 0"></a-plane><!--wall-west-->
+                <a-plane color="#6a41a8" height="2" width="4" position="2 1 0" rotation="0 -90 0"></a-plane><!--wall-east-->
+            </a-entity>
+
+            <a-obj-model position="0 0 -5" src="monster-ghost.obj" mtl="monster-ghost.mtl"></a-obj-model><!--monster-->
+
+            <a-entity light="type: point; intensity: 2; distance: 50; decay: 2" position="0 8 -2"></a-entity><!--light-source-->
+
+            <a-entity camera="userHeight: 2" look-controls wasd-controls position="0 2 2" rotation="-45 0 0"></a-entity><!--camera-->
+        </a-scene>
+    </body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://unpkg.com/vue/dist/vue.js"></script>
+        <script src="https://aframe.io/releases/0.3.2/aframe.min.js"></script>
+    </head>
+
+    <body>
+        <div id="root">
+            <scene></scene>
+        </div>
+
+        <script id="scene_template" type="x-template">
+            <a-scene>
+                <a-assets>
+                    <img id="wall" src="wall.jpg">
+                    <img id="floor" src="floor.jpg">
+                    <img id="ceiling" src="ceiling.jpg">
+                    <a-asset-item id="ghost-obj" src="monster-ghost.obj"></a-asset-item>
+                    <a-asset-item id="ghost-mtl" src="monster-ghost.mtl"></a-asset-item>
+                    <a-asset-item id="ballerina-obj" src="monster-ballerina.obj"></a-asset-item>
+                    <a-asset-item id="ballerina-mtl" src="monster-ballerina.mtl"></a-asset-item>
+                </a-assets>
+
+                <a-sky color="#333333"></a-sky>
+
+                <a-entity position="0 0 0" rotation="0 0 0" scale="5 5 5">
+                    <a-plane material="src: #floor" height="4" width="4" position="0 0 0" rotation="-90 0 0"></a-plane>
+                    <a-plane material="src: #ceiling" height="4" width="4" position="0 2 0" rotation="90 0 0"></a-plane>
+                    <a-plane material="src: #wall" height="2" width="4" position="0 1 -2" rotation="0 0 0"></a-plane>
+                    <a-plane material="src: #wall" height="2" width="4" position="0 1 2" rotation="0 180 0"></a-plane>
+                    <a-plane material="src: #wall" height="2" width="4" position="-2 1 0" rotation="0 90 0"></a-plane>
+                    <a-plane material="src: #wall" height="2" width="4" position="2 1 0" rotation="0 -90 0"></a-plane>
+                </a-entity>
+
+                <monster type="ghost" position="-2 0 -4" rotation="0 45 0" animation="popup"></monster>
+                <monster type="ballerina" position="2 0 -4" rotation="0 -45 0" animation="dropdown"></monster>
+
+                <a-entity light="type: point; intensity: 2; distance: 50; decay: 2;" position="0 8 -2"></a-entity>
+
+                <a-entity camera="userHeight: 2" look-controls wasd-controls position="0 2 2" rotation="0 0 0"></a-entity>
+            </a-scene>
+        </script>
+
+        <script id="monster_template" type="x-template">
+            <a-entity v-bind:position="position" v-bind:rotation="rotation">
+                <a-obj-model v-bind:src="'#' + type + '-obj'" v-bind:mtl="'#' + type + '-mtl'" collidable="8" visible="false" rotation="-90 0 0">
+                    <a-animation v-if="animation === 'popup'" attribute="rotation" from="-90 0 0" to="0 0 0" delay="500" dur="2000" fill="both" repeat="-1" easing="ease-out-bounce"></a-animation>
+                    <a-animation v-if="animation === 'dropdown'" attribute="position" from="0 10 0" to="0 0 0" dur="2000" fill="both" repeat="-1" easing="ease-out-bounce"></a-animation>
+                    <a-animation v-if="animation === 'dropdown'" attribute="rotation" from="0 0 0" to="0 0 0" dur="2000" fill="both" repeat="-1" easing="ease-out-bounce"></a-animation>
+                </a-obj-model>
+            </a-entity>
+        </script>
+
+        <script type="text/javascript">
+            // Register our <scene/> component
+            Vue.component('scene', {
+                template: '#scene_template'
+            });
+
+            // Register our <monster/> compoent
+            Vue.component('monster', {
+                template: '#monster_template',
+                props: ['type', 'position', 'rotation', 'animation']
+            });
+
+            // Start Vue
+            var app = new Vue({
+                el: "#root"
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://aframe.io/releases/0.3.2/aframe.min.js"></script>
+    </head>
+
+    <body>
+        <a-scene>
+            <!-- We can preload all our resources here -->
+            <a-assets>
+                <img id="wall" src="wall.jpg">
+                <img id="floor" src="floor.jpg">
+                <img id="ceiling" src="ceiling.jpg">
+                <a-asset-item id="ghost-obj" src="monster-ghost.obj"></a-asset-item>
+                <a-asset-item id="ghost-mtl" src="monster-ghost.mtl"></a-asset-item>
+            </a-assets>
+
+            <a-sky color="#333333"></a-sky>
+
+            <a-entity position="0 0 0" rotation="0 0 0" scale="5 5 5">
+                <a-plane material="src: #floor" height="4" width="4" position="0 0 0" rotation="-90 0 0"></a-plane><!--floor-->
+                <a-plane material="src: #ceiling" height="4" width="4" position="0 2 0" rotation="90 0 0"></a-plane><!--ceiling-->
+                <a-plane material="src: #wall" height="2" width="4" position="0 1 -2" rotation="0 0 0"></a-plane><!--wall-north-->
+                <a-plane material="src: #wall" height="2" width="4" position="0 1 2" rotation="0 180 0"></a-plane><!--wall-south-->
+                <a-plane material="src: #wall" height="2" width="4" position="-2 1 0" rotation="0 90 0"></a-plane><!--wall-west-->
+                <a-plane material="src: #wall" height="2" width="4" position="2 1 0" rotation="0 -90 0"></a-plane><!--wall-east-->
+            </a-entity>
+
+            <a-obj-model position="0 0 -5" src="#ghost-obj" mtl="#ghost-mtl"><!--monster-->
+                <a-animation attribute="rotation" from="-90 0 0" to="0 0 0" delay="500" dur="2000" fill="both" repeat="-1" easing="ease-out-bounce"></a-animation>
+            </a-obj-model>
+
+            <a-entity light="type: point; intensity: 2; distance: 50; decay: 2" position="0 8 -2"></a-entity><!--light-source-->
+
+            <a-entity camera="userHeight: 2" look-controls wasd-controls position="0 2 2" rotation="0 0 0"></a-entity><!--camera-->
+        </a-scene>
+    </body>
+</html>
